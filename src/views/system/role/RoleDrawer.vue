@@ -71,13 +71,48 @@
           const values = await validate();
           setDrawerProps({ confirmLoading: true });
           // TODO custom api
+          // 增加父节点
+          let appendMenus = [];
+          for (let i = 0; i < values.menu_ids.length; i++) {
+            let temp = familyTree(values.menu_ids[i], treeData.value);
+            if (temp) {
+              appendMenus.push(...temp);
+            }
+          }
+          const unique = (arr) => [...new Set(arr)];
+          values.menu_ids = unique(appendMenus);
+
           await roleStore.updateOrCreateRole(values);
-          console.log(values);
+          // console.log(values);
           closeDrawer();
           emit('success');
         } finally {
           setDrawerProps({ confirmLoading: false });
         }
+      }
+
+      // 自动添加父节点
+      function familyTree(id, list = [], result = []) {
+        for (let i = 0; i < list.length; i++) {
+          const item = list[i];
+          if (item.id === id) {
+            result.push(item.id);
+            if (result.length === 1) return result;
+            return true;
+          }
+
+          if (item.children) {
+            result.push(item.id);
+            const find = familyTree(id, item.children, result);
+            if (find) {
+              return result;
+            }
+
+            result.pop();
+          }
+        }
+
+        return false;
       }
 
       return {
