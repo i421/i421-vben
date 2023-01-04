@@ -86,6 +86,8 @@
 
       function handleDelete(record: Recordable) {
         menuStore.deleteMenu(record.id).then((res) => {
+          console.log(res);
+          console.log('delete');
           if (res == 0) {
             reload();
           }

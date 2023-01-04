@@ -2,6 +2,7 @@ import { getAllRoleList, isAccountExist } from '/@/api/system';
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { useUserStore } from '/@/store/modules/user';
+import { formatTimestampToDateTime } from '/@/utils/dateUtil';
 
 export const columns: BasicColumn[] = [
   {
@@ -20,11 +21,6 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    width: 180,
-  },
-  {
     title: '角色',
     dataIndex: 'role_names',
     width: 200,
@@ -37,6 +33,12 @@ export const columns: BasicColumn[] = [
     title: '部门',
     dataIndex: 'dept_name',
     isShow: false,
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    width: 180,
+    format: (v) => formatTimestampToDateTime(v),
   },
 ];
 

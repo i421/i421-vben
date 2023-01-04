@@ -3,6 +3,7 @@ import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Switch } from 'ant-design-vue';
 import { setRoleStatus } from '/@/api/system';
+import { formatTimestampToDateTime } from '/@/utils/dateUtil';
 import { useMessage } from '/@/hooks/web/useMessage';
 
 export const columns: BasicColumn[] = [
@@ -20,6 +21,10 @@ export const columns: BasicColumn[] = [
     title: '排序',
     dataIndex: 'sort',
     width: 50,
+  },
+  {
+    title: '备注',
+    dataIndex: 'description',
   },
   {
     title: '状态',
@@ -57,10 +62,7 @@ export const columns: BasicColumn[] = [
     title: '创建时间',
     dataIndex: 'createTime',
     width: 180,
-  },
-  {
-    title: '备注',
-    dataIndex: 'description',
+    format: (v) => formatTimestampToDateTime(v),
   },
 ];
 

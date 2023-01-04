@@ -6,6 +6,13 @@ import moment from 'moment';
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const DATE_FORMAT = 'YYYY-MM-DD ';
 
+export function formatTimestampToDateTime(
+  date: moment.MomentInput = undefined,
+  format = DATE_TIME_FORMAT,
+): string {
+  return moment.unix(date).format(format);
+}
+
 export function formatToDateTime(
   date: moment.MomentInput = undefined,
   format = DATE_TIME_FORMAT,

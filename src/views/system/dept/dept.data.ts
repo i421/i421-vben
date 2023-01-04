@@ -2,6 +2,7 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
+import { formatTimestampToDateTime } from '/@/utils/dateUtil';
 
 export const columns: BasicColumn[] = [
   {
@@ -28,13 +29,14 @@ export const columns: BasicColumn[] = [
     },
   },
   {
+    title: '备注',
+    dataIndex: 'remark',
+  },
+  {
     title: '创建时间',
     dataIndex: 'createTime',
     width: 180,
-  },
-  {
-    title: '备注',
-    dataIndex: 'remark',
+    format: (v) => formatTimestampToDateTime(v),
   },
 ];
 
@@ -86,7 +88,6 @@ export const formSchema: FormSchema[] = [
       },
       getPopupContainer: () => document.body,
     },
-    required: true,
   },
   {
     field: 'orderNo',
