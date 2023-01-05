@@ -30,11 +30,6 @@ export const columns: BasicColumn[] = [
     dataIndex: 'remark',
   },
   {
-    title: '部门',
-    dataIndex: 'dept_name',
-    isShow: false,
-  },
-  {
     title: '创建时间',
     dataIndex: 'createTime',
     width: 180,
@@ -118,7 +113,7 @@ export const accountFormSchema: FormSchema[] = [
     required: true,
   },
   {
-    field: 'deptId',
+    field: 'dept_id',
     label: '所属部门',
     component: 'TreeSelect',
     componentProps: {
