@@ -3,6 +3,7 @@ import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
 import { Icon } from '/@/components/Icon';
+import { formatTimestampToDateTime } from '/@/utils/dateUtil';
 
 export const columns: BasicColumn[] = [
   {
@@ -49,6 +50,7 @@ export const columns: BasicColumn[] = [
     title: '创建时间',
     dataIndex: 'createTime',
     width: 180,
+    format: (v) => formatTimestampToDateTime(v),
   },
 ];
 
