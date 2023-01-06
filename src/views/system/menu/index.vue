@@ -78,6 +78,9 @@
       }
 
       function handleEdit(record: Recordable) {
+        if (record.parentId == -1) {
+          record.parentId = undefined;
+        }
         openDrawer(true, {
           record,
           isUpdate: true,

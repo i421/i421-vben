@@ -1,16 +1,9 @@
 <template>
   <div>
     <BasicTable @register="registerTable">
-      <template #toolbar>
-        <a-button type="primary" @click="handleCreate"> 新增部门 </a-button>
-      </template>
       <template #action="{ record }">
         <TableAction
           :actions="[
-            {
-              icon: 'clarity:note-edit-line',
-              onClick: handleEdit.bind(null, record),
-            },
             {
               icon: 'ant-design:delete-outlined',
               color: 'error',
@@ -23,36 +16,30 @@
         />
       </template>
     </BasicTable>
-    <DeptModal @register="registerModal" @success="handleSuccess" />
   </div>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getDeptList } from '/@/api/system';
+  import { getLogList } from '/@/api/system';
 
-  import { useModal } from '/@/components/Modal';
-  import DeptModal from './DeptModal.vue';
+  import { columns, searchFormSchema } from './log.data';
 
-  import { columns, searchFormSchema } from './dept.data';
-
-  import { useDeptStore } from '/@/store/modules/dept';
+  import { useLogStore } from '/@/store/modules/log';
 
   export default defineComponent({
-    name: 'DeptManagement',
-    components: { BasicTable, DeptModal, TableAction },
+    name: 'LogManagement',
+    components: { BasicTable, TableAction },
     setup() {
-      const [registerModal, { openModal }] = useModal();
       const [registerTable, { reload }] = useTable({
-        title: '部门列表',
-        api: getDeptList,
+        title: '日志列表',
+        api: getLogList,
         columns,
-        formConfig: {
+        formLog: {
           labelWidth: 120,
           schemas: searchFormSchema,
         },
-        pagination: false,
         striped: false,
         useSearchForm: true,
         showTableSetting: true,
@@ -68,26 +55,10 @@
         },
       });
 
-      const deptStore = useDeptStore();
-
-      function handleCreate() {
-        openModal(true, {
-          isUpdate: false,
-        });
-      }
-
-      function handleEdit(record: Recordable) {
-        if (record.parentDept == -1) {
-          record.parentDept = undefined;
-        }
-        openModal(true, {
-          record,
-          isUpdate: true,
-        });
-      }
+      const logStore = useLogStore();
 
       function handleDelete(record: Recordable) {
-        deptStore.deleteDept(record.id).then((res) => {
+        logStore.deleteLog(record.id).then((res) => {
           if (res == 0) {
             reload();
           }
@@ -100,9 +71,9 @@
 
       return {
         registerTable,
-        registerModal,
-        handleCreate,
-        handleEdit,
+        // registerModal,
+        // handleCreate,
+        // handleEdit,
         handleDelete,
         handleSuccess,
       };

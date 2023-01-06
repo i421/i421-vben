@@ -7,26 +7,21 @@
   import { defineComponent, ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { accountFormSchema } from './account.data';
-  import { getDeptList } from '/@/api/system';
+  import { formSchema } from './config.data';
+  import { useConfigStore } from '/@/store/modules/config';
 
-  import { useUserStore } from '/@/store/modules/user';
-
+  import { getConfigList } from '/@/api/system';
   export default defineComponent({
-    name: 'AccountModal',
+    name: 'ConfigModal',
     components: { BasicModal, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
-      const rowId = ref('');
 
-      const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
+      const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
         labelWidth: 100,
-        schemas: accountFormSchema,
+        schemas: formSchema,
         showActionButtonGroup: false,
-        actionColOptions: {
-          span: 23,
-        },
       });
 
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
@@ -35,38 +30,29 @@
         isUpdate.value = !!data?.isUpdate;
 
         if (unref(isUpdate)) {
-          rowId.value = data.record.id;
           setFieldsValue({
             ...data.record,
           });
         }
-
-        const treeData = await getDeptList();
-        updateSchema([
-          {
-            field: 'pwd',
-            show: !unref(isUpdate),
-          },
-          {
-            field: 'dept_id',
-            componentProps: { treeData },
-          },
-        ]);
+        const treeData = await getConfigList();
+        updateSchema({
+          field: 'parentConfig',
+          componentProps: { treeData },
+        });
       });
 
-      const userStore = useUserStore();
+      const configStore = useConfigStore();
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增账号' : '编辑账号'));
+      const getTitle = computed(() => (!unref(isUpdate) ? '新增配置' : '编辑配置'));
 
       async function handleSubmit() {
         try {
           const values = await validate();
           setModalProps({ confirmLoading: true });
           // TODO custom api
-          await userStore.updateOrCreateAccount(values);
-          console.log(values);
+          await configStore.updateOrCreateConfig(values);
           closeModal();
-          emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
+          emit('success');
         } finally {
           setModalProps({ confirmLoading: false });
         }

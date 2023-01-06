@@ -64,6 +64,24 @@ const system: AppRouteModule = {
       component: () => import('/@/views/system/dept/index.vue'),
     },
     {
+      path: 'dict',
+      name: 'DictManagement',
+      meta: {
+        title: t('routes.system.dict'),
+        ignoreKeepAlive: true,
+      },
+      component: () => import('/@/views/system/dict/index.vue'),
+    },
+    {
+      path: 'log',
+      name: 'LogManagement',
+      meta: {
+        title: t('routes.system.log'),
+        ignoreKeepAlive: true,
+      },
+      component: () => import('/@/views/system/log/index.vue'),
+    },
+    {
       path: 'changePassword',
       name: 'ChangePassword',
       meta: {

@@ -1,10 +1,14 @@
 import {
   AccountParams,
   DeptListItem,
+  LogListItem,
+  ConfigListItem,
   MenuParams,
   RoleParams,
   RolePageParams,
   MenuListGetResultModel,
+  ConfigListGetResultModel,
+  LogListGetResultModel,
   DeptListGetResultModel,
   AccountListGetResultModel,
   RolePageListGetResultModel,
@@ -13,29 +17,37 @@ import {
 import { defHttp } from '/@/utils/http/axios';
 
 enum Api {
-  AccountList = '/system/getAccountList',
+  accountList = '/system/getAccountList',
   updateOrCreateAccount = '/system/updateOrCreateAccount',
   updatePassword = '/system/updatePassword',
   deleteAccount = '/system/deleteAccount',
-  IsAccountExist = '/system/accountExist',
+  isAccountExist = '/system/accountExist',
 
-  DeptList = '/system/getDeptList',
+  configList = '/system/getConfigList',
+  updateOrCreateConfig = '/system/updateOrCreateConfig',
+  deleteConfig = '/system/deleteConfig',
+
+  logList = '/system/getLogList',
+  deleteLog = '/system/deleteLog',
+
+  deptList = '/system/getDeptList',
   updateOrCreateDept = '/system/updateOrCreateDept',
   deleteDept = '/system/deleteDept',
 
-  MenuList = '/system/getMenuList',
+  menuList = '/system/getMenuList',
   updateOrCreateMenu = '/system/updateOrCreateMenu',
   deleteMenu = '/system/deleteMenu',
 
-  RolePageList = '/system/getRoleListByPage',
+  rolePageList = '/system/getRoleListByPage',
   setRoleStatus = '/system/setRoleStatus',
-  GetAllRoleList = '/system/getAllRoleList',
+  getAllRoleList = '/system/getAllRoleList',
   updateOrCreateRole = '/system/updateOrCreateRole',
   deleteRole = '/system/deleteRole',
 }
 
+// 账号
 export const getAccountList = (params: AccountParams) =>
-  defHttp.get<AccountListGetResultModel>({ url: Api.AccountList, params });
+  defHttp.get<AccountListGetResultModel>({ url: Api.accountList, params });
 
 export const updateOrCreateAccount = (data) =>
   defHttp.post({ url: Api.updateOrCreateAccount, params: data });
@@ -46,20 +58,37 @@ export const deleteAccount = (id) => defHttp.delete({ url: Api.deleteAccount, pa
 
 export const isAccountExist = (account: string, userId: number) =>
   defHttp.post(
-    { url: Api.IsAccountExist, params: { account, userId } },
+    { url: Api.isAccountExist, params: { account, userId } },
     { errorMessageMode: 'none' },
   );
 
+// 部门
 export const getDeptList = (params?: DeptListItem) =>
-  defHttp.get<DeptListGetResultModel>({ url: Api.DeptList, params });
+  defHttp.get<DeptListGetResultModel>({ url: Api.deptList, params });
 
 export const updateOrCreateDept = (data) =>
   defHttp.post({ url: Api.updateOrCreateDept, params: data });
 
 export const deleteDept = (id) => defHttp.delete({ url: Api.deleteDept, params: { id: id } });
 
+// 日志
+export const getLogList = (params?: LogListItem) =>
+  defHttp.get<LogListGetResultModel>({ url: Api.logList, params });
+
+export const deleteLog = (id) => defHttp.delete({ url: Api.deleteLog, params: { id: id } });
+
+// 配置
+export const getConfigList = (params?: ConfigListItem) =>
+  defHttp.get<ConfigListGetResultModel>({ url: Api.configList, params });
+
+export const updateOrCreateConfig = (data) =>
+  defHttp.post({ url: Api.updateOrCreateConfig, params: data });
+
+export const deleteConfig = (id) => defHttp.delete({ url: Api.deleteConfig, params: { id: id } });
+
+// 菜单
 export const getMenuList = (params?: MenuParams) =>
-  defHttp.get<MenuListGetResultModel>({ url: Api.MenuList, params });
+  defHttp.get<MenuListGetResultModel>({ url: Api.menuList, params });
 
 export const updateOrCreateMenu = (data) =>
   defHttp.post({ url: Api.updateOrCreateMenu, params: data });
@@ -67,10 +96,10 @@ export const updateOrCreateMenu = (data) =>
 export const deleteMenu = (id) => defHttp.delete({ url: Api.deleteMenu, params: { id: id } });
 
 export const getRoleListByPage = (params?: RolePageParams) =>
-  defHttp.get<RolePageListGetResultModel>({ url: Api.RolePageList, params });
+  defHttp.get<RolePageListGetResultModel>({ url: Api.rolePageList, params });
 
 export const getAllRoleList = (params?: RoleParams) =>
-  defHttp.get<RoleListGetResultModel>({ url: Api.GetAllRoleList, params });
+  defHttp.get<RoleListGetResultModel>({ url: Api.getAllRoleList, params });
 
 export const setRoleStatus = (id: number, status: string) =>
   defHttp.post({ url: Api.setRoleStatus, params: { id, status } });

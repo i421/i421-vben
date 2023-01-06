@@ -2,7 +2,7 @@
   <div>
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate"> 新增部门 </a-button>
+        <a-button type="primary" @click="handleCreate"> 新增字典 </a-button>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -23,36 +23,35 @@
         />
       </template>
     </BasicTable>
-    <DeptModal @register="registerModal" @success="handleSuccess" />
+    <ConfigModal @register="registerModal" @success="handleSuccess" />
   </div>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getDeptList } from '/@/api/system';
+  import { getConfigList } from '/@/api/system';
 
   import { useModal } from '/@/components/Modal';
-  import DeptModal from './DeptModal.vue';
+  import ConfigModal from './ConfigModal.vue';
 
-  import { columns, searchFormSchema } from './dept.data';
+  import { columns, searchFormSchema } from './config.data';
 
-  import { useDeptStore } from '/@/store/modules/dept';
+  import { useConfigStore } from '/@/store/modules/config';
 
   export default defineComponent({
-    name: 'DeptManagement',
-    components: { BasicTable, DeptModal, TableAction },
+    name: 'ConfigManagement',
+    components: { BasicTable, ConfigModal, TableAction },
     setup() {
       const [registerModal, { openModal }] = useModal();
       const [registerTable, { reload }] = useTable({
-        title: '部门列表',
-        api: getDeptList,
+        title: '配置列表',
+        api: getConfigList,
         columns,
         formConfig: {
           labelWidth: 120,
           schemas: searchFormSchema,
         },
-        pagination: false,
         striped: false,
         useSearchForm: true,
         showTableSetting: true,
@@ -68,7 +67,7 @@
         },
       });
 
-      const deptStore = useDeptStore();
+      const configStore = useConfigStore();
 
       function handleCreate() {
         openModal(true, {
@@ -77,9 +76,6 @@
       }
 
       function handleEdit(record: Recordable) {
-        if (record.parentDept == -1) {
-          record.parentDept = undefined;
-        }
         openModal(true, {
           record,
           isUpdate: true,
@@ -87,7 +83,7 @@
       }
 
       function handleDelete(record: Recordable) {
-        deptStore.deleteDept(record.id).then((res) => {
+        configStore.deleteConfig(record.id).then((res) => {
           if (res == 0) {
             reload();
           }

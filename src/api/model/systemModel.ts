@@ -33,6 +33,33 @@ export interface AccountListItem {
   status: number;
 }
 
+export interface ConfigListItem {
+  id: string;
+  parentId: string;
+  code: string;
+  c_key: string;
+  value: string;
+  sort: number;
+  remark: number;
+  createTime: string;
+  updateTime: string;
+}
+
+export interface LogListItem {
+  id: string;
+  userId: string;
+  type: number;
+  title: string;
+  operation: string;
+  method: string;
+  params: string;
+  url: string;
+  ip: string;
+  location: string;
+  createTime: string;
+  updateTime: string;
+}
+
 export interface DeptListItem {
   id: string;
   orderNo: string;
@@ -66,6 +93,10 @@ export interface RoleListItem {
 export type AccountListGetResultModel = BasicFetchResult<AccountListItem>;
 
 export type DeptListGetResultModel = BasicFetchResult<DeptListItem>;
+
+export type ConfigListGetResultModel = BasicFetchResult<ConfigListItem>;
+
+export type LogListGetResultModel = BasicFetchResult<LogListItem>;
 
 export type MenuListGetResultModel = BasicFetchResult<MenuListItem>;
 

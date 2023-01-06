@@ -6,4 +6,6 @@ export default {
   dept: '部门管理',
   menu: '菜单管理',
   role: '角色管理',
+  dict: '配置管理',
+  log: '日志管理',
 };
